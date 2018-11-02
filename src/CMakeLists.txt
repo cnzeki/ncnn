@@ -151,6 +151,8 @@ ncnn_add_layer(YoloDetectionOutput)
 ncnn_add_layer(Quantize)
 ncnn_add_layer(Dequantize)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/wrapper)
+list(APPEND ncnn_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/wrapper/dnn_api.cpp")
 add_library(ncnn STATIC ${ncnn_SRCS})
 
 if(COVERAGE)

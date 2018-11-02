@@ -119,6 +119,7 @@ protected:
 class Extractor
 {
 public:
+	Extractor() {}
     // enable light mode
     // intermediate blob will be recycled when enabled
     // enabled by default
@@ -152,7 +153,13 @@ public:
     // get result by blob index
     // return 0 if success
     int extract(int blob_index, Mat& feat);
-
+	void reset()
+	{
+		int blob_count = blob_mats.size();
+		blob_mats.clear();
+		blob_mats.resize(blob_count);
+		opt = get_default_option();
+	}
 protected:
     friend Extractor Net::create_extractor() const;
     Extractor(const Net* net, int blob_count);
