@@ -137,8 +137,9 @@ public:
 		}
 		data_state = 0;
 		// feed
-		ncnn::Mat mat(blob.width(), blob.height(), blob.channels(), blob.data);
-		return !ex.input(blobName, mat);
+		ncnn::Mat flatten(blob.width()* blob.height() * blob.channels(), blob.data);
+		ncnn::Mat input = flatten.reshape(blob.width(), blob.height() , blob.channels());
+		return !ex.input(blobName, input);
 	}
 
 	Blob4F get_blob(const char* blobName)
