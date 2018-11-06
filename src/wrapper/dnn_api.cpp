@@ -6,6 +6,7 @@
 #include "androidlog.h"
 #include "net.h"
 
+#define UNUSED(x) x=x
 // Blob4F
 int Blob4F::num()
 {
@@ -86,7 +87,7 @@ public:
 	const std::vector<std::string> get_layer_names()
 	{
 		std::vector<std::string> names(layers.size());
-		for (int i = 0; i < layers.size(); i++)
+		for (size_t i = 0; i < layers.size(); i++)
 		{
 			names[i] = layers[i]->name;
 		}
@@ -133,7 +134,7 @@ public:
 			ex.set_light_mode(true);
 			ex.set_num_threads(1);
 			ex_state = 1;
-			LOGE("Reset extractor");
+			//LOGE("Reset extractor");
 		}
 		data_state = 0;
 		// feed
@@ -169,12 +170,14 @@ public:
 int	caffe_set_mode(int isGpu, int gpuId)
 {
 	LOGE("set mode not support");
+	UNUSED(isGpu);
+	UNUSED(gpuId);
 	return 0;
 }
 
 /* Prediction APIs */
 // Load a pretrained net
-NetHandle 	caffe_net_load(const char* prototxt, const char* weights, int isPhaseTest )
+NetHandle 	caffe_net_load(const char* prototxt, const char* weights )
 {
 	NetContext* net = new NetContext();
 	int err = net->load_param(prototxt, weights);
@@ -187,7 +190,7 @@ NetHandle 	caffe_net_load(const char* prototxt, const char* weights, int isPhase
 }
 
 // Load a net structure
-NetHandle caffe_net_loadRaw(const char* prototxt, int isPhaseTest )
+NetHandle caffe_net_loadRaw(const char* prototxt)
 {
 	NetContext* net = new NetContext();
 	int err = net->net.load_param(prototxt);
@@ -236,10 +239,14 @@ Blob4F caffe_net_getBlob(NetHandle net, const char* blobName)
 // Run forward 
 void caffe_net_forward(NetHandle net)
 {
+	UNUSED(net);
 }
 	
 void caffe_net_forwardFromTo(NetHandle net, int from, int to)
 {
+	UNUSED(net);
+	UNUSED(from);
+	UNUSED(to);
 }
 
 const std::vector<std::string> caffe_net_getLayerNames(NetHandle net)
@@ -266,11 +273,14 @@ int caffe_net_getLayerIndex(NetHandle net, const char* layerName)
 
 int caffe_net_getInputBlobSize(NetHandle net)
 {
+	UNUSED(net);
 	return 1;
 }
 
 const std::string caffe_net_getInputBlobName(NetHandle net, int index)
 {
+	UNUSED(net);
+	UNUSED(index);
 	return std::string("data");
 }
 

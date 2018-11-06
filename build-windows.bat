@@ -15,8 +15,11 @@ if not exist %protobuf_file% (
     echo "You can download manually from https://github.com/google/protobuf/archive/v%version%.zip"
     exit
 )
-echo "extract ..."
-unzip -o -q %protobuf_file%
+
+if not exist protobuf-%version% (
+    echo "extract ..."
+    unzip -o -q %protobuf_file%
+)
 
 cd protobuf-%version%
 
@@ -34,7 +37,7 @@ mkdir build & cd build
 
 mkdir release & cd release
 
-cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF  -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_INSTALL_PREFIX=../../../../install ../..
+cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF  -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DNCNN_OPENMP=OFF -DCMAKE_INSTALL_PREFIX=../../../../install ../..
  
 nmake & nmake install
 
@@ -54,7 +57,7 @@ cd %rootdir%
 echo "building tool"
 set target="NMake Makefiles"
 mkdir build-windows & cd build-windows
-cmake -G%target% -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%rootdir%/install -DProtobuf_INCLUDE_DIR=%rootdir%/install/include -DProtobuf_LIBRARIES=%rootdir%/install/lib/libprotobuf.lib -DProtobuf_PROTOC_EXECUTABLE=%rootdir%/install/bin/protoc.exe ..
+cmake -G%target% -DCMAKE_BUILD_TYPE=Release  -DNCNN_OPENMP=OFF -DCMAKE_INSTALL_PREFIX=%rootdir%/install -DProtobuf_INCLUDE_DIR=%rootdir%/install/include -DProtobuf_LIBRARIES=%rootdir%/install/lib/libprotobuf.lib -DProtobuf_PROTOC_EXECUTABLE=%rootdir%/install/bin/protoc.exe ..
 nmake
 nmake install
 copy /y tools\*.exe         %rootdir%\install\bin

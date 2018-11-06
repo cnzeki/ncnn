@@ -107,9 +107,9 @@ DLLAPI(int)			caffe_set_mode(int useGpu, int gpuId);
 
 /* Prediction APIs */
 // Load a pretrained net
-DLLAPI(NetHandle) 	caffe_net_load(const char* prototxt, const char* weights,int isPhaseTest=1);
+DLLAPI(NetHandle) 	caffe_net_load(const char* prototxt, const char* weights);
 // Load a net structure
-DLLAPI(NetHandle) 	caffe_net_loadRaw(const char* prototxt, int isPhaseTest=1);
+DLLAPI(NetHandle) 	caffe_net_loadRaw(const char* prototxt);
 DLLAPI(void)        caffe_net_release(NetHandle handle);
 
 // Set blob data for given blob name
