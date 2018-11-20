@@ -221,8 +221,8 @@ bool caffe_net_setBlob(NetHandle net, const char* blobName, Blob4F blob)
 	{
 		return false;
 	}
-	int err = pNet->set_blob(blobName, blob);
-	return !err;
+	bool ret = pNet->set_blob(blobName, blob);
+	return ret;
 }
 
 // Get blob data for given blob name
